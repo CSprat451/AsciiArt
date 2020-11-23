@@ -1,12 +1,12 @@
-#Ascii Art Project (WIP)
+# Ascii Art Project (WIP)
 
-###Overview
+### Overview
 
 This is an ascii art project I made for fun.
 
 It converts an image into an ascii art image.
 
-##Prerequisites
+## Prerequisites
 
 
 - Python
@@ -14,14 +14,14 @@ It converts an image into an ascii art image.
 - Flask - The webserver library 
 - Pycharm - IDE
 
-##How to run it (on Windows)
+## How to run it (on Windows)
 
 ````
 $ set FLASK_APP=src/main.py
 $ flask run
 ````
 
-###How to check that it is working
+### How to check that it is working
 
 There are two test photos located in the resources directory.
 The spider_man2.jpg image is a great example of an image that converts well to
