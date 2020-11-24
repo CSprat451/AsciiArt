@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
-import image_config
+# import image_config
 
 ASCII_CHARACTERS = "`.^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 WHITE = 0

@@ -1,12 +1,8 @@
-from PIL import Image, ImageDraw, ImageFont
 from image_config import ImageConfig
 from ascii_art import AsciiArt
-import requests
-import os
 import sys
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
-# from flask_cors import CORS
 
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
