@@ -2,12 +2,13 @@ from PIL import Image, ImageDraw, ImageFont
 import image_config
 
 ASCII_CHARACTERS = "`.^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
-MAX_PIXEL_BRIGHTNESS = 256
 WHITE = 0
 BLACK = 255
 FONT = "consolab.ttf"
 FONT_SIZE = 20
 GRAYSCALE = 'L'
+MAX_PIXEL_BRIGHTNESS = 256
+PIXEL_BORDER_BUFFER = 10
 
 
 class AsciiArt(object):
@@ -92,8 +93,8 @@ class AsciiArt(object):
         max_width_line = max(lines, key=lambda s: font.getsize(s)[0])
         font_height = pt2px(font.getsize(ASCII_CHARACTERS)[1])
         max_width = int(round(font.getsize(max_width_line)[0]))
-        height = (font_height * len(lines)) + 10
-        width = int(round(max_width + 10))
+        height = (font_height * len(lines)) + PIXEL_BORDER_BUFFER
+        width = int(round(max_width + PIXEL_BORDER_BUFFER))
         vertical_position = 5
         horizontal_position = 5
 
