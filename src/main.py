@@ -15,6 +15,7 @@ MAX_IMAGE_FILESIZE = 0.5 * 1024 * 1024
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.route('/upload')
 def upload_image():
     return render_template('upload_image.html')

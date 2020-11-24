@@ -1,9 +1,13 @@
 from PIL import Image, ImageDraw, ImageFont
+import image_config
 
 ASCII_CHARACTERS = "`.^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 MAX_PIXEL_BRIGHTNESS = 256
+WHITE = 0
+BLACK = 255
 FONT = "consolab.ttf"
 FONT_SIZE = 20
+GRAYSCALE = 'L'
 
 
 class AsciiArt(object):
@@ -13,6 +17,10 @@ class AsciiArt(object):
         self.ascii_matrix = self.get_ascii_matrix()
 
     def get_intensity_matrix(self):
+        """
+        Takes the R, G, B values from pixel_matrix and converts to a weighted average
+        of the three numbers. The function returns the luminosity of each pixel.
+        """
         intensity_matrix = []
         for row in self.pixel_matrix:
             intensity_row = []
@@ -51,11 +59,17 @@ class AsciiArt(object):
         return ascii_matrix
 
     def print_ascii_matrix(self):
+        """
+        Doubles the ascii characters per line to even out the width to height ratio of the image.
+        """
         for row in self.ascii_matrix:
             line = [p + p for p in row]
             print("".join(line))
 
     def save_art_text(self):
+        """
+        Saves the ascii text to a .txt file
+        """
         ascii_art_file = open("ascii-art.txt", "w")
         for row in self.ascii_matrix:
             line = [p + p for p in row]
@@ -63,21 +77,42 @@ class AsciiArt(object):
         ascii_art_file.close()
 
     def save_art_image(self, new_width, new_height, filename):
-        ascii_image = Image.new('L', (new_width*24, new_height*24), 0)
-        draw = ImageDraw.Draw(ascii_image)
+        """
+        Converts the ascii .txt file to an image and saves to a folder.
+        """
+
         font = ImageFont.truetype(FONT, FONT_SIZE)
 
-        pt2px = lambda pt: int(round(pt * 96.0 / 72))
-        max_height = pt2px(font.getsize(ASCII_CHARACTERS)[1])
+        lines = []
+        for row in self.ascii_matrix:
+            line = [p + p for p in row]
+            lines.append("".join(line))
+
+        pt2px = lambda pt: int(round(pt))  # converts points to pixels
+        max_width_line = max(lines, key=lambda s: font.getsize(s)[0])
+        font_height = pt2px(font.getsize(ASCII_CHARACTERS)[1])
+        max_width = int(round(font.getsize(max_width_line)[0]))
+        height = (font_height * len(lines)) + 10
+        width = int(round(max_width + 10))
         vertical_position = 5
         horizontal_position = 5
-        line_spacing = int(round(max_height * 0.7))
+
+        ascii_image = Image.new(GRAYSCALE, (width, height), WHITE)
+        draw = ImageDraw.Draw(ascii_image)
 
         for row in self.ascii_matrix:
             line = [p + p for p in row]
-            draw.text((horizontal_position, vertical_position), "".join(line), 255, font=font)
-            vertical_position += line_spacing
+            draw.text((horizontal_position, vertical_position), "".join(line), BLACK, font=font)
+            vertical_position += font_height
 
         ascii_image_resize = ascii_image.resize((new_width*8, new_height*8), Image.ANTIALIAS)
         ascii_image_resize.show()
-        ascii_image_resize.save(filename + "-ascii.jpg")
+        ascii_image_resize.save(filename + "-ascii-art.jpg")
+
+
+# file = "AOT.jpg"
+#
+# converted_image = image_config.ImageConfig(file)
+# image_pixel_matrix = converted_image.get_pixel_matrix()
+# ascii_art_image = AsciiArt(image_pixel_matrix)
+# ascii_art_image.save_art_image(converted_image.get_new_width(), converted_image.get_new_height(), "-art.jpg")
