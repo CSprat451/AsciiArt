@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+import uuid
 # import image_config
 
 ASCII_CHARACTERS = "`.^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
@@ -33,9 +34,14 @@ class AsciiArt(object):
         return intensity_matrix
 
     def normalize_intensity_matrix(self):
+        """
+        Normalizes the luminosity number from the intensity_matrix.
+        Returns an array of the normalized luminosity for each pixel.
+        """
         normalized_intensity_matrix = []
         max_pixel = max(map(max, self.intensity_matrix))
         min_pixel = min(map(min, self.intensity_matrix))
+
         for row in self.intensity_matrix:
             rescaled_row = []
             for p in row:
@@ -48,14 +54,17 @@ class AsciiArt(object):
     def get_ascii_matrix(self):
         """
         Converts the pixel_brightness number to a corresponding ascii character.
-        returns: a list of ascii characters
+        returns: an array of the ascii characters that correspond to each pixel_brightness
         """
         ascii_matrix = []
 
         for row in self.normalize_intensity_matrix():
             ascii_row = []
             for p in row:
-                ascii_row.append(ASCII_CHARACTERS[int(p/MAX_PIXEL_BRIGHTNESS * len(ASCII_CHARACTERS)) - 1])
+                index = int(p/MAX_PIXEL_BRIGHTNESS * len(ASCII_CHARACTERS)) - 1
+                if index < 0:
+                    index = 0
+                ascii_row.append(ASCII_CHARACTERS[index])
             ascii_matrix.append(ascii_row)
         return ascii_matrix
 
@@ -70,6 +79,7 @@ class AsciiArt(object):
     def save_art_text(self):
         """
         Saves the ascii text to a .txt file
+        Output: ascii-art.txt
         """
         ascii_art_file = open("ascii-art.txt", "w")
         for row in self.ascii_matrix:
@@ -79,7 +89,9 @@ class AsciiArt(object):
 
     def save_art_image(self, new_width, new_height, filename):
         """
-        Converts the ascii .txt file to an image and saves to a folder.
+        Converts the ascii .txt file to a new image .jpg file with a unique id and saves to a folder.
+        Input: ascii-art.txt file
+        Output: a .jpg file with a unique id
         """
 
         font = ImageFont.truetype(FONT, FONT_SIZE)
@@ -106,9 +118,11 @@ class AsciiArt(object):
             draw.text((horizontal_position, vertical_position), "".join(line), BLACK, font=font)
             vertical_position += font_height
 
+        unique_filename = (str(uuid.uuid4()) + ".jpg")
         ascii_image_resize = ascii_image.resize((new_width*8, new_height*8), Image.ANTIALIAS)
         ascii_image_resize.show()
-        ascii_image_resize.save(filename + "-ascii-art.jpg")
+        ascii_image_resize.save(unique_filename)
+        return unique_filename
 
 
 # file = "AOT.jpg"

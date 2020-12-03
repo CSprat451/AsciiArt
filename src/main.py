@@ -1,14 +1,16 @@
 from image_config import ImageConfig
 from ascii_art import AsciiArt
 import sys
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_file
 from werkzeug.utils import secure_filename
+from flask_cors import CORS
 
 UPLOAD_FOLDER = ''
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
 MAX_IMAGE_FILESIZE = 0.5 * 1024 * 1024
 
 app = Flask(__name__)
+cors = CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -53,9 +55,11 @@ def upload_file():
         converted_image = ImageConfig(file)
         image_pixel_matrix = converted_image.get_pixel_matrix()
         ascii_art_image = AsciiArt(image_pixel_matrix)
-        ascii_art_image.save_art_image(converted_image.get_new_width(), converted_image.get_new_height(), filename)
+        saved_image_name = ascii_art_image.save_art_image(converted_image.get_new_width(),
+                                                          converted_image.get_new_height(),
+                                                          filename)
 
-        return "File uploaded successfully"
+        return send_file('../' + saved_image_name)
     return "You called get"
 
 
