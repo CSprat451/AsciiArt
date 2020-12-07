@@ -50,3 +50,12 @@ of ascii art and does not show up well.
 $ curl -v -X POST -H "Content-Type: multipart/form-data" -F "file=@resources\spider_man2.jpg" localhost:5000/ascii
 ````
 
+### Connect to frontend app
+
+Part two of this project involves using React as the frontend
+to upload an image to this backend server and an ascii art image 
+is returned to the user.
+
+For more information and directions on how to connect the two projects,
+go to the image-upload-frontend repository here:
+https://github.com/CSprat451/image-upload-frontend
