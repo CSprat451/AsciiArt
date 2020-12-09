@@ -14,11 +14,6 @@ cors = CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route('/upload')
-def upload_image():
-    return render_template('upload_image.html')
-
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -33,16 +28,13 @@ def upload_file():
         print(request.files)
         if 'file' not in request.files:
             return 'No file part'
-            # return redirect(request.url)
 
         file = request.files['file']
         if not file:
             return 'No file detected'
-            # return redirect(request.url)
 
         if file.filename == '':
             return 'No filename'
-            # return redirect(request.url)
 
         if not allowed_file(file.filename):
             return 'File type not allowed'
@@ -59,10 +51,12 @@ def upload_file():
                                                           converted_image.get_new_height(),
                                                           filename)
 
-        return send_file('../' + saved_image_name)
+        return saved_image_name.strip('.jpg')
     return "You called get"
 
 
+@app.route('/ascii/<image_id>', methods=['GET'])
+def get_image(image_id):
+    return send_file('../' + image_id + ".jpg")
 
 
-# if __name__ == '__main__':
