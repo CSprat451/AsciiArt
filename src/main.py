@@ -57,6 +57,6 @@ def upload_file():
 
 @app.route('/ascii/<image_id>', methods=['GET'])
 def get_image(image_id):
-    return send_file('../' + image_id + ".jpg")
+    return send_file('../results/' + image_id + ".jpg")
 
 

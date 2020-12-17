@@ -53,7 +53,7 @@ $ curl -v -X POST -H "Content-Type: multipart/form-data" -F "file=@resources\spi
 ### Connect to frontend app
 
 Part two of this project involves using React as the frontend
-to upload an image to this backend server and an ascii art image 
+to upload an image to this backend server, and an ascii art image 
 is returned to the user.
 
 For more information and directions on how to connect the two projects,
