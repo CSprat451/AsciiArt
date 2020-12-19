@@ -1,7 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
-import uuid
 import os
-# import image_config
 
 ASCII_CHARACTERS = "`.^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 WHITE = 0
@@ -88,7 +86,7 @@ class AsciiArt(object):
             ascii_art_file.write("".join(line) + "\n")
         ascii_art_file.close()
 
-    def save_art_image(self, new_width, new_height, filename): # change to def txt_to_jpg
+    def save_art_image(self, new_width, new_height, unique_filename): # change to def txt_to_jpg
         """
         Converts the ascii .txt file to a new image .jpg file with a unique id and saves to a folder.
         Input: ascii-art.txt file
@@ -118,12 +116,11 @@ class AsciiArt(object):
             draw.text((horizontal_position, vertical_position), "".join(line), BLACK, font=font)
             vertical_position += font_height
 
-        unique_filename = (str(uuid.uuid4()) + ".jpg")
         ascii_image_resize = ascii_image.resize((new_width*8, new_height*8), Image.ANTIALIAS)
-        ascii_image_resize.show()
+        # ascii_image_resize.show()
 
         dir_path = os.path.realpath(os.path.dirname('..'))
-        rel_path = os.path.join(dir_path, "results", unique_filename)
+        rel_path = os.path.join(dir_path, "results", "ascii-image", unique_filename)
 
         ascii_image_resize.save(rel_path)
 
