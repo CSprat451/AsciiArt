@@ -9,7 +9,7 @@ BLACK = 255
 FONT = "consolab.ttf"
 FONT_SIZE = 20
 GRAYSCALE = 'L'
-MAX_PIXEL_BRIGHTNESS = 256
+MAX_PIXEL_BRIGHTNESS = 255
 PIXEL_BORDER_BUFFER = 10
 
 
@@ -42,6 +42,12 @@ class AsciiArt(object):
         normalized_intensity_matrix = []
         max_pixel = max(map(max, self.intensity_matrix))
         min_pixel = min(map(min, self.intensity_matrix))
+
+        if min_pixel == max_pixel:
+            if max_pixel + 1.0 >= MAX_PIXEL_BRIGHTNESS:
+                min_pixel -= 1.0
+            else:
+                max_pixel += 1.0
 
         for row in self.intensity_matrix:
             rescaled_row = []
@@ -123,15 +129,16 @@ class AsciiArt(object):
         ascii_image_resize.show()
 
         dir_path = os.path.realpath(os.path.dirname('..'))
-        rel_path = os.path.join(dir_path, "results", unique_filename)
+
+        rel_path = os.path.join(dir_path, "results", "image-frame", unique_filename)
 
         ascii_image_resize.save(rel_path)
 
-        # ascii_image_resize.save(unique_filename)
+        ascii_image_resize.save(unique_filename)
         return unique_filename
 
 
-# file = "AOT.jpg"
+# file =
 #
 # converted_image = image_config.ImageConfig(file)
 # image_pixel_matrix = converted_image.get_pixel_matrix()
