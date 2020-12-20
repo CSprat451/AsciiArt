@@ -91,7 +91,7 @@ class AsciiGif(object):
             frames.append(new_frame)
 
         # Saves the gif to the directed file above
-        print(frames)
+        # print(frames)
         frames[0].save(rel_path, format='GIF', append_images=frames[0:], save_all=True, duration=100, loop=0)
         return unique_filename
 
