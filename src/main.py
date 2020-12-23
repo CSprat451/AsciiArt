@@ -1,3 +1,5 @@
+from time import sleep
+
 from image_config import ImageConfig
 from ascii_art import AsciiArt
 from ascii_gif import AsciiGif
@@ -9,7 +11,7 @@ import uuid
 import os
 
 home_dir = os.path.expanduser('~')
-UPLOAD_FOLDER = os.path.join(home_dir, 'PycharmProjects', 'Robert-Heaton-Projects', 'ASCII Art', 'src')
+UPLOAD_FOLDER = os.getcwd()
 ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg']
 ALLOWED_VIDEO_EXTENSIONS = ['mp4']
 MAX_IMAGE_FILESIZE = 0.5 * 1024 * 1024
@@ -58,9 +60,8 @@ def upload_file():
             return "http://localhost:5000/ascii/image/" + saved_image_name.strip('.jpg')
 
         elif allowed_video_file(file.filename):
-            print(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            ascii_gif = AsciiGif(file.filename)
+            ascii_gif = AsciiGif(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
             ascii_gif.video_to_image()
             ascii_gif.frames_to_ascii()
             saved_gif_name = ascii_gif.ascii_to_gif()
@@ -74,10 +75,9 @@ def upload_file():
 
 @app.route('/ascii/image/<image_id>', methods=['GET'])
 def get_image(image_id):
-    return send_file('../results/image-frame' + image_id + ".jpg")
+    return send_file(os.path.join(os.getcwd(), "results", "image-frame", image_id + ".jpg"))
 
 
 @app.route('/ascii/gif/<gif_id>', methods=['GET'])
 def get_gif(gif_id):
-    return send_file('../results/ascii-gif' + gif_id + ".gif")
-
+    return send_file(os.path.join(os.getcwd(), "results", "ascii-gif", gif_id + ".gif"))

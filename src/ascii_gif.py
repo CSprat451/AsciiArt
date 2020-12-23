@@ -23,13 +23,12 @@ class AsciiGif(object):
         image_name_list = []
 
         while True:
-
             # reading from frame
             ret, frame = self.video.read()
 
             if ret:
                 # if video is still left continue creating images
-                name = '../results/image-frame/frame' + str(currentframe) + '.jpg'
+                name = os.path.join(os.getcwd(), "results", "image-frame", "frame" + str(currentframe) + '.jpg')
 
                 # writing the extracted images
                 cv2.imwrite(name, frame)
@@ -52,8 +51,7 @@ class AsciiGif(object):
         Converts the image frames extracted from the video file into ascii art images.
         """
         # File path where the image frames were saved
-        dir_path = os.path.dirname(os.getcwd())
-        image_frames_path = glob.glob(os.path.join(dir_path, 'results', 'image-frame', '*.jpg'), recursive=True)
+        image_frames_path = glob.glob(os.path.join(os.getcwd(), 'results', 'image-frame', '*.jpg'), recursive=True)
 
         # Converts each image into an ascii art image and saves the ascii image file over the original image frame.
         for i in image_frames_path:
@@ -71,12 +69,11 @@ class AsciiGif(object):
         unique_filename = (str(uuid.uuid4()) + ".gif")
 
         # Set up the file path to save the gif with a unique filename
-        dir_path = os.path.dirname(os.getcwd())
-        rel_path = os.path.join(dir_path, 'results', 'ascii-gif', unique_filename)
+        rel_path = os.path.join(os.getcwd(), 'results', 'ascii-gif', unique_filename)
 
         # Where to find the saved ascii image frames
         frames = []
-        images = glob.glob(os.path.join(dir_path, 'results', 'image-frame', '*.jpg'), recursive=True)
+        images = glob.glob(os.path.join(os.getcwd(), 'results', 'image-frame', '*.jpg'), recursive=True)
 
         # Make dictionary using the frame number (key) and full path to the image frame (value)
         sorted_images = {}
@@ -91,7 +88,6 @@ class AsciiGif(object):
             frames.append(new_frame)
 
         # Saves the gif to the directed file above
-        # print(frames)
         frames[0].save(rel_path, format='GIF', append_images=frames[0:], save_all=True, duration=100, loop=0)
         return unique_filename
 
