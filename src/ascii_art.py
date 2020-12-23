@@ -125,12 +125,10 @@ class AsciiArt(object):
         ascii_image_resize = ascii_image.resize((new_width*8, new_height*8), Image.ANTIALIAS)
         # ascii_image_resize.show()
 
-        dir_path = os.path.realpath(os.path.dirname('..'))
-        rel_path = os.path.join(dir_path, "results", "image-frame", unique_filename)
+        rel_path = os.path.join(os.getcwd(), "results", "image-frame", unique_filename)
 
         ascii_image_resize.save(rel_path)
 
-        ascii_image_resize.save(unique_filename)
         return unique_filename
 
 

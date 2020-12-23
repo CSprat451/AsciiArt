@@ -33,6 +33,15 @@ def allowed_image_filesize(filesize):
     return int(filesize) <= MAX_IMAGE_FILESIZE
 
 
+@app.before_first_request
+def init():
+    try:
+        os.makedirs("results/image-frame", exist_ok=True)
+        os.makedirs("results/ascii-gif", exist_ok=True)
+    except OSError as e:
+        print(e)
+
+
 @app.route('/ascii', methods=['GET', 'POST'])
 def upload_file():
     if request.method == "POST":
