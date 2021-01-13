@@ -4,13 +4,14 @@
 
 This is an ascii art project I made for fun.
 
-It converts an image into an ascii art image.
+It converts an image into an ascii art image, and it converts a video into an ascii gif.
 
 ## Prerequisites
 
 
 - Python
-- Pillow - The photo image library used for this project.
+- Pillow - The photo image library
+- OpenCV - The video processing library
 - Flask - The webserver library 
 - Pycharm - IDE
 
@@ -52,10 +53,21 @@ $ curl -v -X POST -H "Content-Type: multipart/form-data" -F "file=@resources\spi
 
 ### Connect to frontend app
 
-Part two of this project involves using React as the frontend
-to upload an image to this backend server, and an ascii art image 
-is returned to the user.
+I made a React frontend that can be used to upload an image to this backend server, 
+and an ascii art image is returned to the user. A short video can also be uploaded, 
+and an ascii gif will be returned.
 
 For more information and directions on how to connect the two projects,
 go to the image-upload-frontend repository here:
 https://github.com/CSprat451/image-upload-frontend
+
+## Status
+
+This project is a work in progress, but is nearing completion. The limitation of using python is
+that the image processing is quite slow depending on the hardware. I plan on trying to speed up 
+the image processing in this application, if possible.
+
+## Inspiration
+
+This project was inspired by Programming Projects for Advanced Beginners by Robert Heaton.
+This and additional projects are presented on www.robertheaton.com.
